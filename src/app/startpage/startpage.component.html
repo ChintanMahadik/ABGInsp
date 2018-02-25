@@ -1,0 +1,17 @@
+
+
+ <mat-toolbar style="border-radius:5px; border-color:black;border-style: solid ;position:sticky;top:0px; text-align:center;  height:80px; ">
+      <b>Welcome to Deletion Prep App</b> 
+      <span style="width:100%;text-align:left"></span> 
+      <i class="fa fa-ellipsis-v" [matMenuTriggerFor]="menu">  </i>  
+    </mat-toolbar>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item  routerLink="/login" type="button" class="btn-block"  >Login</button>
+        <button mat-menu-item  routerLink="/about" type="button" class="btn-block"  >About</button>
+      </mat-menu>
+  
+    <div style="width:100%;margin-top:10px;height:100%;">
+      <img src="./assets/car.gif" width="100%">
+    </div>   
+

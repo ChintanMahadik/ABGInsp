@@ -1,0 +1,1397 @@
+
+ <mat-toolbar style="border-radius:5px; border-color:black;border-style: solid ;position:sticky;top:0px; height:80px;display:flex;">
+    <i class="fa fa-arrow-left" (click)="backClicked()">  </i>
+      <span style="margin-left: 20px; font-family:Arial;"><b>Mva  {{MvaNumber}} </b></span> 
+      <span style="width:100%;text-align:left"></span> 
+      <i class="fa fa-ellipsis-v" [matMenuTriggerFor]="menu">  </i>  
+    </mat-toolbar>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item  routerLink="/save" type="button" class="btn-block"  >Save</button>
+        <button mat-menu-item  routerLink="/faq" type="button" class="btn-block"  >FAQ</button>
+        <button mat-menu-item  routerLink="/logout" type="button" class="btn-block" (click)="logout();" >Logout</button>
+      </mat-menu>
+
+<div class="example-container" >
+<mat-accordion>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header style="background: red;border-radius:5px;">
+          <mat-panel-title>
+          Vehicle Details
+          </mat-panel-title>
+      </mat-expansion-panel-header>
+      <br>
+      <mat-form-field>
+          <mat-select placeholder="Inspection Type" class="select_left" [(ngModel)]="vehicleDetails.inspectionType">
+              <mat-option *ngFor="let itype of Itype" [value]="itype.value">
+                {{ itype.viewValue }}
+              </mat-option>
+            </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input type="tel" maxlength="8" matInput placeholder="MVA" [(ngModel)]="vehicleDetails.mvaNumber" disabled>
+      </mat-form-field>
+
+      <mat-form-field>
+          <input matInput placeholder="Make/Model" disabled style=" font-family:'Times New Roman', Times, serif;" [(ngModel)]="vehicleDetails.makeModel" >
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="Wheels" class="select_left" [(ngModel)]="vehicleDetails.wheels">
+                <mat-option *ngFor="let wheel of Wheels" [value]="wheel.value">
+                  {{ wheel.viewValue }}
+                </mat-option> 
+              </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="tel" maxlength="9" matInput placeholder="Wizard Mileage" disabled [(ngModel)]="vehicleDetails.wizardMileage" >
+          </mat-form-field>
+
+          <mat-form-field hintLabel="Max 9 charaters">
+            <input type="tel" maxlength="9" matInput placeholder="Actual Mileage" [(ngModel)]="vehicleDetails.actualMileage" >
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-select placeholder="Interior" class="select_left" [(ngModel)]="vehicleDetails.interior">
+                <mat-option *ngFor="let int of Interior" [value]="int.value">
+                  {{ int.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-form-field>
+
+        <mat-form-field hintLabel="Please specify in litres">
+        <input type="tel" maxlength="5" matInput placeholder="Engine Size" [(ngModel)]="vehicleDetails.engineSize" >
+        </mat-form-field><br>
+
+        <mat-form-field>
+          <input type="date" matInput placeholder="Date" [(ngModel)]="vehicleDetails.date" >
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="text" maxlength="8" matInput placeholder="Last 8 of VIN" disabled [(ngModel)]="vehicleDetails.vin" >
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Prep City" class="select_left" [(ngModel)]="vehicleDetails.prepCity">
+              <mat-option *ngFor="let city of PCity" [value]="city.value">
+                {{ city.viewValue }}
+              </mat-option>
+            </mat-select>
+      </mat-form-field>
+
+      <mat-grid-list cols="2" rowHeight="4:1" >
+        <mat-grid-tile ><div class="grid_element" >Recalls Clear?</div></mat-grid-tile>
+        <mat-grid-tile ><mat-slide-toggle  [(ngModel)]="vehicleDetails.recallsClear" ></mat-slide-toggle></mat-grid-tile>
+   
+        <mat-grid-tile><div class="grid_element">IQ/VR/CC/EZ/ZIP Removed?</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="vehicleDetails.iq_vr_cc_ez_zip_removed" ></mat-slide-toggle></mat-grid-tile>
+        
+   
+      </mat-grid-list>
+      
+    </mat-expansion-panel>
+    
+<br>
+
+<!--          Expansion 2      -->
+    <mat-expansion-panel>
+      <mat-expansion-panel-header style="background: red;border-radius:5px;">
+          <mat-panel-title>
+        Drivers Seat/Cockpit
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <br>
+      <mat-grid-list cols="2" rowHeight="3:1" >
+        <mat-grid-tile><div class="grid_element" >Inspect Left Side & Center Rails</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.inspect_left_right"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="driversCockpit.inspect_left_right"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.inspect_left_right">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.inspect_left_right_d">
+                <mat-option *ngFor="let dtype of DType" [value]="dtype.value">
+                  {{ dtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile *ngIf="driversCockpit.inspect_left_right"><div class="grid_element"   style="color:red; font-size:12px;"> Damage Severity  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.inspect_left_right">
+            <mat-select placeholder="Select Severity" [(ngModel)]="driversCockpit.inspect_left_right_s">
+                <mat-option *ngFor="let stype of SType" [value]="stype.value">
+                  {{ stype.viewValue }}
+                </mat-option>
+              </mat-select>        
+      </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Horn Function </div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.horn_function" ></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Turn Signals</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.turnSignals"></mat-slide-toggle ></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Wipers good operation </div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.wipersGoodOperation"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Warning Lights on Dashboard Cluster</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.warningLightsDashboard"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.warningLightsDashboard"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.warningLightsDashboard">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.warningLightsDashboard_d">
+                <mat-option *ngFor="let d2type of D2Type" [value]="d2type.value">
+                  {{ d2type.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+
+        <mat-grid-tile><div class="grid_element">Visor / Mirror / Interior lamps</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.visor_mirror"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.visor_mirror"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.visor_mirror">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.visor_mirror_d">
+                <mat-option *ngFor="let d12type of DT12Type" [value]="d12type.value">
+                  {{ d12type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Headliner </div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.headLiners"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.headLiners"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.headLiners">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.headLiners_d">
+                <mat-option *ngFor="let d3type of D3Type" [value]="d3type.value">
+                  {{ d3type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">All Switches - Locks, Mirror </div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle  [(ngModel)]="driversCockpit.allSwitches" ></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Heat / AC Operation </div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.heat_ACOperation"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">All Knobs / Vents</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.AllKnobsVents"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.AllKnobsVents"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.AllKnobsVents">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.AllKnobsVents_d">
+                <mat-option *ngFor="let d4type of D4Type" [value]="d4type.value">
+                  {{ d4type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Radio / Stereo / Speakers</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.radio_stereo"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.radio_stereo"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.radio_stereo">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.radio_stereo_d" >
+                <mat-option *ngFor="let d5type of D5Type" [value]="d5type.value">
+                  {{ d5type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Back Up Camera operation</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.backUpCam"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.backUpCam"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.backUpCam">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.backUpCam_d">
+                <mat-option *ngFor="let d6type of D6Type" [value]="d6type.value">
+                  {{ d6type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Power Outlet functioning</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.poweroutlet"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Seats / Power / Manual</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle  [(ngModel)]="driversCockpit.seats_power_man"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Seatbelts</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.seatBelts"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.seatBelts"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.seatBelts">
+            <mat-select placeholder="Specify Type" [(ngModel)]="driversCockpit.seatBelts_d">
+                <mat-option *ngFor="let d7type of D7Type" [value]="d7type.value">
+                  {{ d7type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Trim - Door / Seat</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.trimDoor"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.trimDoor"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.trimDoor">
+            <mat-select placeholder="Select Type" [(ngModel)]="driversCockpit.trimDoor_d">
+                <mat-option *ngFor="let d8type of D8Type" [value]="d8type.value">
+                  {{ d8type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Upholstery / Carpet</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.upholstery"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.upholstery"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="driversCockpit.upholstery">
+            <mat-select placeholder="Select Type" [(ngModel)]="driversCockpit.upholstery_d">
+                <mat-option *ngFor="let d9type of D9Type" [value]="d9type.value">
+                  {{ d9type.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Fuel level</div></mat-grid-tile>
+        <mat-grid-tile>
+          <mat-select placeholder="Select Type" [(ngModel)]="driversCockpit.fuelLevel">
+            <mat-option *ngFor="let d10type of D10Type" [value]="d10type.value">
+              {{ d10type.viewValue }}
+            </mat-option>
+          </mat-select></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Trunk / Hood / Fuel Release</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.trunk_hood"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Floor Mat Front Set (If equippped)</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="driversCockpit.floorMatFrontSet"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="driversCockpit.floorMatFrontSet"><div class="grid_element" style="color:red; font-size:12px;">Did the vehicle come with mats (see ROME sticker)?</div></mat-grid-tile>
+        <mat-grid-tile *ngIf="driversCockpit.floorMatFrontSet">
+          <mat-slide-toggle [(ngModel)]="driversCockpit.romeSticker"></mat-slide-toggle>
+        </mat-grid-tile>
+
+
+      </mat-grid-list>
+    </mat-expansion-panel>
+    <br>
+
+<!--    Expansion 3      -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="background: red;border-radius:5px;">
+      <mat-panel-title>
+      Left Rear
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <br>
+      <mat-grid-list cols="2" rowHeight="3:1" >
+
+        <mat-grid-tile><div class="grid_element">Exterior Door /Mldgs / Body</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.exteriorDoor"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.exteriorDoor"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.exteriorDoor">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.exteriorDoor_d">
+                <mat-option *ngFor="let lr1 of lftRearDT1" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.exteriorDoor"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Severity  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.exteriorDoor">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.exteriorDoor_s">
+                <mat-option *ngFor="let lr1 of lftRearDS1" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">LR Glass</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.lrGlass" ></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.lrGlass"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.lrGlass">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.lrGlass_d">
+                <mat-option *ngFor="let lr1 of lftRearDT3" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Upholstery / Carpet</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.upholstery_carpet"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.upholstery_carpet"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.upholstery_carpet">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.upholstery_carpet_d">
+                <mat-option *ngFor="let lr1 of lftRearDT4" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Trim - Door / Seat</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.trimDoorSeat"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.trimDoorSeat"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.trimDoorSeat">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.trimDoorSeat_d">
+                <mat-option *ngFor="let lr1 of lftRearDT5" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Seat Belt</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.seatBelt" ></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.seatBelt"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.seatBelt">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.seatBelt_d">
+                <mat-option *ngFor="let lr1 of lftRearDT6" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Switches, Window, Lock</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.switches"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Floor Mats Rear Set (If equippped)</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.floorMatRear" ></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.floorMatRear"><div class="grid_element"  style="color:red; font-size:12px;"> Did the vehicle come with mats (see ROME sticker)?  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.floorMatRear">
+          <mat-slide-toggle [(ngModel)]="leftRear.floorMatRear_d"></mat-slide-toggle>
+         </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Wheel / Cover /Nuts / Caps </div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.wheelsCoverNuts"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.wheelsCoverNuts"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.wheelsCoverNuts">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.wheelsCoverNuts_d">
+                <mat-option *ngFor="let lr1 of lftRearDT7" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="leftRear.wheelsCoverNuts"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.wheelsCoverNuts">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.wheelsCoverNuts_s">
+                <mat-option *ngFor="let lr1 of lftRearDS2" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Qtr Pnl - Mldg / Body</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.qtrpanel"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.qtrpanel"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.qtrpanel">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.qtrpanel_d">
+                <mat-option *ngFor="let lr1 of lftRearDT8" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.qtrpanel"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.qtrpanel">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.qtrpanel_s">
+                <mat-option *ngFor="let lr1 of lftRearDS3" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element">Lights</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.lights"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile colspan="2" rowspan="2">
+          <mat-form-field>  
+          <input type="text" maxlength="15" matInput placeholder="Left Rear Tire Make Model" [(ngModel)]="leftRear.leftRearMakeModel">
+        </mat-form-field>
+        </mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element">Left Rear Tire damage</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftRear.leftRearTireDamage"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="leftRear.leftRearTireDamage"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftRear.leftRearTireDamage">
+            <mat-select placeholder="Select Type" [(ngModel)]="leftRear.leftRearTireDamage_d">
+                <mat-option *ngFor="let lr1 of lftRearDT9" [value]="lr1.value">
+                  {{ lr1.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="2" rowspan="2"> <mat-form-field>  
+          <input type="tel" maxlength="2" matInput placeholder="Left Rear Tire Thread" [(ngModel)]="leftRear.leftRearTireThread">
+        </mat-form-field></mat-grid-tile>
+
+      </mat-grid-list>
+  </mat-expansion-panel>
+  <br>
+<!--    Expansion 4      -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="background: red;border-radius:5px;">
+      <mat-panel-title>
+     Rear of Vehicle
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <br>
+    <mat-grid-list cols="2" rowHeight="3:1" >
+
+        <mat-grid-tile><div class="grid_element" >Inspect Rear Undercarriage</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.inspectRearUnderCarriage"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="rearOfVehicle.inspectRearUnderCarriage"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.inspectRearUnderCarriage">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.inspectRearUnderCarriage_d">
+                <mat-option *ngFor="let xtype of X1Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="rearOfVehicle.inspectRearUnderCarriage"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.inspectRearUnderCarriage">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.inspectRearUnderCarriage_s">
+                <mat-option *ngFor="let xtype of X2Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile><div class="grid_element" >Inspect Rear Body Panel / Floor</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.inspectRearBody"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="rearOfVehicle.inspectRearBody"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.inspectRearBody">
+            <mat-select placeholder="Specify Type"  [(ngModel)]="rearOfVehicle.inspectRearBody_d">
+                <mat-option *ngFor="let xtype of X3Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="rearOfVehicle.inspectRearBody"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.inspectRearBody">
+            <mat-select placeholder="Specify Type"  [(ngModel)]="rearOfVehicle.inspectRearBody_s">
+                <mat-option *ngFor="let xtype of X4Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile><div class="grid_element" >Bumper</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.bumper"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="rearOfVehicle.bumper"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.bumper">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.bumper_d">
+                <mat-option *ngFor="let xtype of X5Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="rearOfVehicle.bumper"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.bumper">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.bumper_s">
+                <mat-option *ngFor="let xtype of X6Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile><div class="grid_element" >Lights / Lenses</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.light_lenses"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="rearOfVehicle.light_lenses"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.light_lenses">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.light_lenses_d">
+                <mat-option *ngFor="let xtype of X7Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="rearOfVehicle.light_lenses"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.light_lenses">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.light_lenses_s">
+                <mat-option *ngFor="let xtype of X8Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile><div class="grid_element" >Deck Lid / Trunk / Body</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.deckLid"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="rearOfVehicle.deckLid"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.deckLid">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.deckLid_d">
+                <mat-option *ngFor="let xtype of X9Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="rearOfVehicle.deckLid"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.deckLid">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.deckLid_s">
+                <mat-option *ngFor="let xtype of X10Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+     
+
+      <mat-grid-tile><div class="grid_element" >Cargo Net / Privacy Cover / Carpet</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.cargoNet"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="rearOfVehicle.cargoNet"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.cargoNet">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.cargoNet_d">
+                <mat-option *ngFor="let xtype of X11Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile><div class="grid_element" >Spare Tire / Air Kit / Jack / Mat</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.spareTire"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >Manual-Book (move to RF seat)</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.manualBook"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element" >Roof</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.roof"></mat-slide-toggle></mat-grid-tile> 
+       
+        <mat-grid-tile *ngIf="rearOfVehicle.roof"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rearOfVehicle.roof">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.roof_d">
+                <mat-option *ngFor="let xtype of X12Type" [value]="xtype.value">
+                  {{ xtype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="rearOfVehicle.roof"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="rearOfVehicle.roof">
+          <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.roof_s">
+              <mat-option *ngFor="let xtype of X15Type" [value]="xtype.value">
+                {{ xtype.viewValue }}
+              </mat-option>
+            </mat-select>
+    </mat-grid-tile>
+
+      <mat-grid-tile><div class="grid_element" >Antenna / Gas Cap</div></mat-grid-tile>
+      <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.antenna"></mat-slide-toggle></mat-grid-tile> 
+     
+      <mat-grid-tile *ngIf="rearOfVehicle.antenna"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="rearOfVehicle.antenna">
+          <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.antenna_d">
+              <mat-option *ngFor="let xtype of X13Type" [value]="xtype.value">
+                {{ xtype.viewValue }}
+              </mat-option>
+            </mat-select>
+    </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Back / Hatch Glass</div></mat-grid-tile>
+      <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.back_hatch"></mat-slide-toggle></mat-grid-tile> 
+     
+      <mat-grid-tile *ngIf="rearOfVehicle.back_hatch"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="rearOfVehicle.back_hatch">
+          <mat-select placeholder="Specify Type" [(ngModel)]="rearOfVehicle.back_hatch_d">
+              <mat-option *ngFor="let xtype of X14Type" [value]="xtype.value">
+                {{ xtype.viewValue }}
+              </mat-option>
+            </mat-select>
+    </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >DVD headphones and remote</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="rearOfVehicle.dvdHeadphones"></mat-slide-toggle></mat-grid-tile> 
+   
+
+    </mat-grid-list>  
+
+  </mat-expansion-panel>
+
+  <br>
+
+<!--          Expansion 5      -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="background: red;border-radius:5px;">
+      <mat-panel-title>
+        Right Rear
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <br>
+
+    <mat-grid-list cols="2" rowHeight="3:1" >
+
+        <mat-grid-tile><div class="grid_element" >Qtr Pnl - Mldg / Body</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.qtr_panel"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile *ngIf="rightRear.qtr_panel"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.qtr_panel">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.qtr_panel_d" >
+                <mat-option *ngFor="let ytype of Y1Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="rightRear.qtr_panel"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.qtr_panel">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.qtr_panel_s">
+                <mat-option *ngFor="let ytype of Y2Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+        
+        <mat-grid-tile><div class="grid_element" >Lights</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.lights"></mat-slide-toggle></mat-grid-tile>
+
+        
+        <mat-grid-tile><div class="grid_element" >Wheel / Cover / Nuts / Caps</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.wheels_cover"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="rightRear.wheels_cover"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.wheels_cover">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.wheels_cover_d">
+                <mat-option *ngFor="let ytype of Y3Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="rightRear.wheels_cover"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.wheels_cover">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.wheels_cover_s">
+                <mat-option *ngFor="let ytype of Y4Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+        
+
+        <mat-grid-tile><div class="grid_element" >Exterior Door / Mldgs / Body</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.exterior_door"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="rightRear.exterior_door"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.exterior_door">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.exterior_door_d">
+                <mat-option *ngFor="let ytype of Y5Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="rightRear.exterior_door"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.exterior_door">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.exterior_door_s">
+                <mat-option *ngFor="let ytype of Y11Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+      </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >RR Glass</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.rrGlass"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="rightRear.rrGlass"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.rrGlass">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.rrGlass_d">
+                <mat-option *ngFor="let ytype of Y6Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+
+        <mat-grid-tile><div class="grid_element" >Trim - Door, Seat</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.trim_door_seat"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="rightRear.trim_door_seat"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.trim_door_seat">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.trim_door_seat_d">
+                <mat-option *ngFor="let ytype of Y7Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >Switches, Window, Lock</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.switches"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >Seat Belt</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.seatBelt"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="rightRear.seatBelt"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.seatBelt">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.seatBelt_d">
+                <mat-option *ngFor="let ytype of Y8Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >Upholstery / Carpet</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.upholstery_carpet"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="rightRear.upholstery_carpet"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.upholstery_carpet">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.upholstery_carpet_d">
+                <mat-option *ngFor="let ytype of Y9Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="2" rowspan="2"> <mat-form-field>  
+        <input type="text" maxlength="15" matInput placeholder="Right Rear Tire Make Model" [(ngModel)]="rightRear.rightRearTireModel">
+        </mat-form-field></mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >Right Rear Tire damage</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightRear.rightRearTireDamage"></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile *ngIf="rightRear.rightRearTireDamage"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="rightRear.rightRearTireDamage">
+            <mat-select placeholder="Specify Type" [(ngModel)]="rightRear.rightRearTireDamage_d">
+                <mat-option *ngFor="let ytype of Y10Type" [value]="ytype.value">
+                  {{ ytype.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-grid-tile>
+
+        <mat-grid-tile colspan="2" rowspan="2"> <mat-form-field>  
+        <input type="tel" maxlength="2" matInput placeholder="Right Rear Tire Thread" [(ngModel)]="rightRear.rightRearTireThread">
+        </mat-form-field></mat-grid-tile>
+      
+      </mat-grid-list>
+    
+  </mat-expansion-panel>
+  <br>
+
+  
+<!--          Expansion 6      -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="background: red;border-radius:5px;">
+      <mat-panel-title>
+      Right Side Front
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <br> 
+   <mat-grid-list cols="2" rowHeight="3:1" >
+      <mat-grid-tile><div class="grid_element" >Inspect Right - Side & Ctr Rails</div></mat-grid-tile>
+      <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.inspectRightSide"></mat-slide-toggle></mat-grid-tile>
+      
+      <mat-grid-tile *ngIf="rightSideFront.inspectRightSide"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="rightSideFront.inspectRightSide">
+          <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.inspectRightSide_d" >
+              <mat-option *ngFor="let rsf of RgtSdeDT1" [value]="rsf.value">
+                {{ rsf.viewValue }}
+              </mat-option>
+            </mat-select>
+      </mat-grid-tile>
+      <mat-grid-tile *ngIf="rightSideFront.inspectRightSide"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="rightSideFront.inspectRightSide">
+          <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.inspectRightSide_s">
+              <mat-option *ngFor="let rsf of RgtSdeDS1" [value]="rsf.value">
+                {{ rsf.viewValue }}
+              </mat-option>
+            </mat-select>
+    </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Undercarriage Front Right</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.underCarriageFront"></mat-slide-toggle></mat-grid-tile>
+    
+    <mat-grid-tile *ngIf="rightSideFront.underCarriageFront"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="rightSideFront.underCarriageFront">
+        <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.underCarriageFront_d">
+            <mat-option *ngFor="let rsf of RgtSdeDT2" [value]="rsf.value">
+              {{ rsf.viewValue }}
+            </mat-option>
+          </mat-select>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="rightSideFront.underCarriageFront"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="rightSideFront.underCarriageFront">
+        <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.underCarriageFront_s">
+            <mat-option *ngFor="let rsf of RgtSdeDS2" [value]="rsf.value">
+              {{ rsf.viewValue }}
+            </mat-option>
+          </mat-select>
+  </mat-grid-tile>
+  
+  <mat-grid-tile><div class="grid_element" >Exterior Door / Mldgs / Body</div></mat-grid-tile>
+  <mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.exteriorDoor"></mat-slide-toggle></mat-grid-tile>
+  
+  <mat-grid-tile *ngIf="rightSideFront.exteriorDoor"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+  <mat-grid-tile *ngIf="rightSideFront.exteriorDoor">
+      <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.exteriorDoor_d">
+          <mat-option *ngFor="let rsf of RgtSdeDT3" [value]="rsf.value">
+            {{ rsf.viewValue }}
+          </mat-option>
+        </mat-select>
+  </mat-grid-tile>
+  <mat-grid-tile *ngIf="rightSideFront.exteriorDoor"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+  <mat-grid-tile *ngIf="rightSideFront.exteriorDoor">
+      <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.exteriorDoor_s">
+          <mat-option *ngFor="let rsf of RgtSdeDS3" [value]="rsf.value">
+            {{ rsf.viewValue }}
+          </mat-option>
+        </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >RF Glass</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.rfGlass"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.rfGlass"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.rfGlass">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.rfGlass_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT4" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >RF Mirror</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.rfMirror"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.rfMirror"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.rfMirror">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.rfMirror_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT5" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >Upholstery / Carpet</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.upholsteryCarpet"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.upholsteryCarpet"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.upholsteryCarpet">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.upholsteryCarpet_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT6" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >Trim - Door, Seat</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.trimDoorSeat"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.trimDoorSeat"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.trimDoorSeat">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.trimDoorSeat_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT7" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+
+<mat-grid-tile><div class="grid_element" >Switches, Window, Lock</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.switches"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >Seat Belt</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.seatBelt"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.seatBelt"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.seatBelt">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.seatBelt_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT8" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >Windshield (RF Side)</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.windshield"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.windshield"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.windshield">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.windshield_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT9" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >RF Fender / Mldg / Body</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.rfFender"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.rfFender"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.rfFender">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.rfFender_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT10" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.rfFender"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.rfFender">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.rfFender_s">
+        <mat-option *ngFor="let rsf of RgtSdeDS10" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >Wheel / Cover / Nuts / Caps</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.wheels"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.wheels"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.wheels">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.wheels_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT11" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.wheels"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.wheels">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.wheels_s">
+        <mat-option *ngFor="let rsf of RgtSdeDS11" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >Lights</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.lights"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile colspan="2" rowspan="2"> <mat-form-field>  
+    <input type="text" maxlength="15" matInput placeholder="Right Front Tire Make Model" [(ngModel)]="rightSideFront.rightFronttireMakeModel">
+</mat-form-field></mat-grid-tile>
+
+<mat-grid-tile><div class="grid_element" >Right Front Tire damage</div></mat-grid-tile>
+<mat-grid-tile><mat-slide-toggle [(ngModel)]="rightSideFront.rightFrontTireDamage"></mat-slide-toggle></mat-grid-tile>
+
+<mat-grid-tile *ngIf="rightSideFront.rightFrontTireDamage"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+<mat-grid-tile *ngIf="rightSideFront.rightFrontTireDamage">
+    <mat-select placeholder="Specify Type" [(ngModel)]="rightSideFront.rightFrontTireDamage_d">
+        <mat-option *ngFor="let rsf of RgtSdeDT12" [value]="rsf.value">
+          {{ rsf.viewValue }}
+        </mat-option>
+      </mat-select>
+</mat-grid-tile>
+
+  <mat-grid-tile colspan="2" rowspan="2"> <mat-form-field>  
+    <input type="tel" maxlength="2" matInput placeholder="Right Front Tire Thread" [(ngModel)]="rightSideFront.rightFrontTireThread">
+  </mat-form-field></mat-grid-tile>
+  
+</mat-grid-list>
+</mat-expansion-panel>
+<br>
+
+<!--          Expansion 7      -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="background: red;border-radius:5px;">
+      <mat-panel-title>
+        Front End
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <br>
+    <mat-grid-list cols="2" rowHeight="3:1" >
+    <mat-grid-tile><div class="grid_element" >Headlamps (must work)</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="frontEnd.headLamps"></mat-slide-toggle></mat-grid-tile>
+    
+    <mat-grid-tile *ngIf="frontEnd.headLamps"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="frontEnd.headLamps">
+        <mat-select placeholder="Specify Type" [(ngModel)]="frontEnd.headLamps_d" >
+            <mat-option *ngFor="let fe of FrntEndDT1" [value]="fe.value">
+              {{ fe.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Turn signals (must work)</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="frontEnd.turnSignals"></mat-slide-toggle></mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Fog Lamps (must work)</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="frontEnd.fogLamps" ></mat-slide-toggle></mat-grid-tile>
+
+    <mat-grid-tile *ngIf="frontEnd.fogLamps"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="frontEnd.fogLamps">
+        <mat-select placeholder="Specify Type" [(ngModel)]="frontEnd.fogLamps_d">
+            <mat-option *ngFor="let fe of FrntEndDT2" [value]="fe.value">
+              {{ fe.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Bumper</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="frontEnd.bumper"></mat-slide-toggle></mat-grid-tile>
+
+    <mat-grid-tile *ngIf="frontEnd.bumper"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="frontEnd.bumper">
+        <mat-select placeholder="Specify Type" [(ngModel)]="frontEnd.bumper_d">
+            <mat-option *ngFor="let fe of FrntEndDT3" [value]="fe.value">
+              {{ fe.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile *ngIf="frontEnd.bumper"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="frontEnd.bumper">
+            <mat-select placeholder="Specify Type" [(ngModel)]="frontEnd.bumper_s">
+                <mat-option *ngFor="let fe of FrntEndDS1" [value]="fe.value">
+                  {{ fe.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Grille</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="frontEnd.grille"></mat-slide-toggle></mat-grid-tile>
+
+    <mat-grid-tile *ngIf="frontEnd.grille"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="frontEnd.grille">
+        <mat-select placeholder="Specify Type" [(ngModel)]="frontEnd.grille_d">
+            <mat-option *ngFor="let fe of FrntEndDT4" [value]="fe.value">
+              {{ fe.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Hood (must operate)</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="frontEnd.hood"></mat-slide-toggle></mat-grid-tile>
+
+    <mat-grid-tile *ngIf="frontEnd.hood"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="frontEnd.hood">
+        <mat-select placeholder="Specify Type" [(ngModel)]="frontEnd.hood_d">
+            <mat-option *ngFor="let fe of FrntEndDT5" [value]="fe.value">
+              {{ fe.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-grid-tile>
+
+      <mat-grid-tile *ngIf="frontEnd.hood"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="frontEnd.hood">
+            <mat-select placeholder="Specify Type" [(ngModel)]="frontEnd.hood_s">
+                <mat-option *ngFor="let fe of FrntEndDS2" [value]="fe.value">
+                  {{ fe.viewValue }}
+                </mat-option>
+            </mat-select>
+          </mat-grid-tile>
+        </mat-grid-list>
+  </mat-expansion-panel>  
+  <br>
+
+
+<!--          Expansion 8      -->
+<mat-expansion-panel>
+      <mat-expansion-panel-header style="background: red;border-radius:5px;">
+        <mat-panel-title>
+          Engine Compartment
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <br>
+      <mat-grid-list cols="2" rowHeight="3:1" >
+        
+        <mat-grid-tile><div class="grid_element" >Oil Level</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="engineCompartment.oilLevel"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element" >Oil Color</div></mat-grid-tile>
+        <mat-grid-tile><mat-select placeholder="Select value" [(ngModel)]="engineCompartment.oilColor">
+          <mat-option *ngFor="let ec of EngCmpt1" [value]="ec.value">
+            {{ ec.viewValue }}
+          </mat-option></mat-select>
+        </mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element" >Battery</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="engineCompartment.battery"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element" >Washer Fluid</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="engineCompartment.washerFluid"></mat-slide-toggle></mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element" >All other Fluid levels at "full" level</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="engineCompartment.allOtherFluids"> </mat-slide-toggle></mat-grid-tile>
+        <br>
+        <mat-grid-tile><div class="grid_element" >Emission sticker intact & in good condition</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="engineCompartment.emissionStickerIntact"></mat-slide-toggle></mat-grid-tile>
+  
+        </mat-grid-list>
+    </mat-expansion-panel>
+    <br>
+
+
+<!--          Expansion 9      -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="background: red;border-radius:5px;">
+      <mat-panel-title>
+       Left Front
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <br>
+    <mat-grid-list cols="2" rowHeight="3:1" >
+
+      <mat-grid-tile><div class="grid_element" >Undercarriage Front Left</div></mat-grid-tile>
+      <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.underCarriageFrontLeft"></mat-slide-toggle></mat-grid-tile>
+  
+      <mat-grid-tile *ngIf="leftFront.underCarriageFrontLeft"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="leftFront.underCarriageFrontLeft">
+          <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.underCarriageFrontLeft_d">
+              <mat-option *ngFor="let lf of LftFrntDT1" [value]="lf.value">
+                {{ lf.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-grid-tile>
+  
+        <mat-grid-tile *ngIf="leftFront.underCarriageFrontLeft"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftFront.underCarriageFrontLeft">
+              <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.underCarriageFrontLeft_s">
+                  <mat-option *ngFor="let lf of LftFrntDS1" [value]="lf.value">
+                    {{ lf.viewValue }}
+                  </mat-option>
+            </mat-select>
+        </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >Examine Sub- Frame</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.examineSubFrame"></mat-slide-toggle></mat-grid-tile>
+    
+        <mat-grid-tile *ngIf="leftFront.examineSubFrame"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftFront.examineSubFrame">
+            <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.examineSubFrame_d">
+                <mat-option *ngFor="let lf of LftFrntDT2" [value]="lf.value">
+                  {{ lf.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-grid-tile>
+    
+          <mat-grid-tile *ngIf="leftFront.examineSubFrame"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+          <mat-grid-tile *ngIf="leftFront.examineSubFrame">
+                <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.examineSubFrame_s">
+                    <mat-option *ngFor="let lf of LftFrntDS2" [value]="lf.value">
+                      {{ lf.viewValue }}
+                    </mat-option>
+              </mat-select>
+          </mat-grid-tile>
+
+        <mat-grid-tile><div class="grid_element" >LF Fender / Mldg / Body</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.lfFender"></mat-slide-toggle></mat-grid-tile>
+      
+        <mat-grid-tile *ngIf="leftFront.lfFender"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftFront.lfFender">
+              <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.lfFender_d">
+                  <mat-option *ngFor="let lf of LftFrntDT3" [value]="lf.value">
+                    {{ lf.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-grid-tile>
+      
+          <mat-grid-tile *ngIf="leftFront.lfFender"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+          <mat-grid-tile *ngIf="leftFront.lfFender">
+                  <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.lfFender_s">
+                      <mat-option *ngFor="let lf of LftFrntDS3" [value]="lf.value">
+                        {{ lf.viewValue }}
+                      </mat-option>
+              </mat-select>
+          </mat-grid-tile>
+
+          <mat-grid-tile><div class="grid_element" >LF Glass</div></mat-grid-tile>
+          <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.lfGlass"></mat-slide-toggle></mat-grid-tile>
+        
+          <mat-grid-tile *ngIf="leftFront.lfGlass"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+          <mat-grid-tile *ngIf="leftFront.lfGlass">
+                <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.lfGlass_d">
+                    <mat-option *ngFor="let lf of LftFrntDT4" [value]="lf.value">
+                      {{ lf.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element" >LF Mirror</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.lfMirror"></mat-slide-toggle></mat-grid-tile>
+              
+        <mat-grid-tile *ngIf="leftFront.lfMirror"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftFront.lfMirror">
+                  <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.lfMirror_d">
+                      <mat-option *ngFor="let lf of LftFrntDT5" [value]="lf.value">
+                          {{ lf.viewValue }}
+                      </mat-option>
+                </mat-select>
+        </mat-grid-tile>
+        
+        <mat-grid-tile><div class="grid_element" >Exterior Door / Mldgs / Body</div></mat-grid-tile>
+        <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.exteriorDoor"></mat-slide-toggle></mat-grid-tile>
+      
+        <mat-grid-tile *ngIf="leftFront.exteriorDoor"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+        <mat-grid-tile *ngIf="leftFront.exteriorDoor">
+              <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.exteriorDoor_d">
+                  <mat-option *ngFor="let lf of LftFrntDT6" [value]="lf.value">
+                    {{ lf.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-grid-tile>
+      
+          <mat-grid-tile *ngIf="leftFront.exteriorDoor"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+          <mat-grid-tile *ngIf="leftFront.exteriorDoor">
+                  <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.exteriorDoor_s">
+                      <mat-option *ngFor="let lf of LftFrntDS6" [value]="lf.value">
+                    {{ lf.viewValue }}
+                      </mat-option>
+              </mat-select>
+          </mat-grid-tile>                        
+
+
+      <mat-grid-tile><div class="grid_element" >Wheel / Cover / Nuts / Caps</div></mat-grid-tile>
+      <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.wheels"></mat-slide-toggle></mat-grid-tile>
+        
+      <mat-grid-tile *ngIf="leftFront.wheels"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="leftFront.wheels">
+                <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.wheels_d">
+                    <mat-option *ngFor="let lf of LftFrntDT7" [value]="lf.value">
+                      {{ lf.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-grid-tile>
+        
+      <mat-grid-tile *ngIf="leftFront.wheels"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Severity Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="leftFront.wheels">
+              <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.wheels_s">
+                    <mat-option *ngFor="let lf of LftFrntDS7" [value]="lf.value">
+                      {{ lf.viewValue }}
+              </mat-option>
+          </mat-select>
+      </mat-grid-tile> 
+      
+      <mat-grid-tile><div class="grid_element" >Windshield (LF Side)</div></mat-grid-tile>
+      <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.windshield"></mat-slide-toggle></mat-grid-tile>
+        
+      <mat-grid-tile *ngIf="leftFront.windshield"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+      <mat-grid-tile *ngIf="leftFront.windshield">
+            <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.windshield_d">
+                    <mat-option *ngFor="let lf of LftFrntDT8" [value]="lf.value">
+                      {{ lf.viewValue }}
+                   </mat-option>
+            </mat-select>
+      </mat-grid-tile>
+
+      <mat-grid-tile><div class="grid_element" >Keys (TB = 2 sets)</div></mat-grid-tile>
+      <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.keys"></mat-slide-toggle></mat-grid-tile>
+        
+      <mat-grid-tile *ngIf="leftFront.keys"><div class="grid_element" >Second key requested</div></mat-grid-tile>
+      <mat-grid-tile *ngIf="leftFront.keys"><mat-slide-toggle [(ngModel)]="leftFront.keys_secondKey"></mat-slide-toggle></mat-grid-tile>
+       
+      <mat-grid-tile colspan="2" rowspan="2" *ngIf="leftFront.keys_secondKey">
+      <mat-form-field><input type="date" matInput placeholder="Date" [(ngModel)]="leftFront.keys_secondKey_date"></mat-form-field>
+      </mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Remotes (TB, Retail = 2 sets)</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.remotes"></mat-slide-toggle></mat-grid-tile>
+
+    <mat-grid-tile colspan="2" rowspan="2"> <mat-form-field>  
+        <input type="text" maxlength="15" matInput placeholder="Left Front Tire Make Model" [(ngModel)]="leftFront.leftFrontMakeModel">
+      </mat-form-field></mat-grid-tile>
+
+    <mat-grid-tile><div class="grid_element" >Left Front Tire damage</div></mat-grid-tile>
+    <mat-grid-tile><mat-slide-toggle [(ngModel)]="leftFront.leftFrontTireDamage"></mat-slide-toggle></mat-grid-tile>
+    
+    <mat-grid-tile *ngIf="leftFront.leftFrontTireDamage"><div class="grid_element"   style="color:red; font-size:12px;"> Specify Damage Type  </div></mat-grid-tile>        
+    <mat-grid-tile *ngIf="leftFront.leftFrontTireDamage">
+          <mat-select placeholder="Specify Type" [(ngModel)]="leftFront.leftFrontTireDamage_d">
+                  <mat-option *ngFor="let lf of LftFrntDT11" [value]="lf.value">
+                    {{ lf.viewValue }}
+                 </mat-option>
+          </mat-select>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="2" rowspan="2"> <mat-form-field>  
+        <input type="tel" maxlength="2" matInput placeholder=" Left Front Tire Thread" [(ngModel)]="leftFront.leftFrontTireThread">
+      </mat-form-field></mat-grid-tile>
+ 
+    </mat-grid-list>
+  </mat-expansion-panel>    
+  <br>
+
+
+<!--          Expansion 10      -->
+<mat-expansion-panel>
+    <mat-expansion-panel-header style="background: red;border-radius:5px;">
+      <mat-panel-title>
+      Chargable Damage
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <br>
+    <div class="grid_element" style="padding-left:38px;"><b>Ford</b> has turnback allowances upto <b>$500</b> deductible<span style="margin-left:4px;"></span><i class="fa fa-info"> </i> </div>
+    <br><br><hr><br>
+      <div style="text-align: center;"><b>Panel/Issues</b></div>
+      
+    <mat-grid-list cols="4" rowHeight="5:6">
+        <mat-grid-tile><div class="grid_element">ABG Ramp Amt $$</div></mat-grid-tile>
+        <mat-grid-tile><div class="grid_element">Repair No or Yes</div></mat-grid-tile>
+        <mat-grid-tile><div class="grid_element">ABG <br>Cost of Repair $$</div></mat-grid-tile>
+        <mat-grid-tile><div class="grid_element">Remaining Damage on MVA $$</div></mat-grid-tile>
+    </mat-grid-list>
+<hr>
+    <mat-grid-list cols="4" rowHeight="5:3">
+    <!--    <mat-grid-tile colspan="2"><div class="grid_element">Drivers Seat/Cockpit</div></mat-grid-tile>
+        <mat-grid-tile colspan="2"><div class="grid_element"><i class="fa fa-bullseye"> </i> Turn Signals</div></mat-grid-tile>
+    -->
+    <div style="text-align: center;"><b>Drivers Seat/Cockpit - Turn Signals</b></div>
+
+        <mat-grid-tile><mat-form-field>  
+            <input matInput placeholder="0" style="width:80%;">
+          </mat-form-field></mat-grid-tile>
+
+        <mat-grid-tile><mat-slide-toggle></mat-slide-toggle></mat-grid-tile>
+
+        <mat-grid-tile><mat-form-field>  
+            <input matInput placeholder="0" style="width:50%;">
+          </mat-form-field></mat-grid-tile>
+
+        <mat-grid-tile><mat-form-field>  
+            <input matInput placeholder="0">
+          </mat-form-field></mat-grid-tile>
+<!--                                      -->    
+  <mat-grid-tile colspan="4"><div style="text-align: center;"><b>Left Rear Tire Damage - Puncture</b></div></mat-grid-tile>
+       
+          <mat-grid-tile><mat-form-field>  
+              <input matInput placeholder="0">
+            </mat-form-field></mat-grid-tile>
+  
+          <mat-grid-tile><mat-slide-toggle></mat-slide-toggle></mat-grid-tile>
+  
+          <mat-grid-tile><mat-form-field>  
+              <input matInput placeholder="0">
+            </mat-form-field></mat-grid-tile>
+  
+          <mat-grid-tile><mat-form-field>  
+              <input matInput placeholder="0">
+            </mat-form-field></mat-grid-tile>
+    
+    </mat-grid-list>
+
+
+    <br>
+      <mat-form-field>
+          <input type="text" matInput placeholder="Total Existing Condition/Ramp Amount" style="font-size:25px;" disabled [(ngModel)]="valuexyz">
+      </mat-form-field>
+
+      <mat-form-field>
+          <input type="text" matInput placeholder="Prepped Condition" style="font-size:25px;" disabled [(ngModel)]="valueabc">
+      </mat-form-field>
+
+    </mat-expansion-panel>
+  <br>
+
+  </mat-accordion>
+  </div>

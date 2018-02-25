@@ -1,0 +1,12 @@
+.content {
+    background-color:white;
+    height:75vh;
+    overflow: hidden;
+}
+
+.footer {
+    position: relative;
+    bottom: 0px;
+    background-color:white;
+
+}

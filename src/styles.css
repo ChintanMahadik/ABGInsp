@@ -1,1 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/*.mat-input-placeholder {
+    color: black;
+
+}*/
+
+.mat-expansion-panel-header-title{
+        color: white ;
+        }
+           
+    
+
+.mat-input-underline.mat-form-field-underline{
+    width: 75%!important; 
+    }
+    
+  
+.mat-toolbar{
+    background:rgb(255, 0, 0);
+    color:white;
+    font-size: 1em;
+}
+
+.mat-expansion-panel{
+    border-radius: 5px;
+    
+}
+.mat-expansion-panel-body{
+    width: 90%;   
+}
+
+.footer {
+    box-shadow: 0px 500px 0px 500px rgb(48, 46, 46);
+}
+
+.mat-expansion-indicator::after{
+    color: white;
+
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: rgba(243, 70, 70, 0.438);
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color:rgb(255, 0, 0);
+
+
+}
+
+.mat-form-field-wrapper{
+    width:70%;
+}
+
+.mat-menu{
+    background:red;
+}
+

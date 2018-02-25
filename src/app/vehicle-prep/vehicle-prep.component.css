@@ -1,0 +1,33 @@
+.example-container {
+    display: flex;
+    padding-top:30px;
+    
+  }
+  
+  .example-container > * {
+    width: 100%;
+    border-radius: 5px;  
+  }
+  
+.mat-form-field{
+      width:100%;
+  }
+
+.mat-select{
+    text-align:center;
+}
+
+.select_left{
+  text-align:left;
+}
+ 
+.grid_element{
+    position: absolute;
+    left: 5px;
+    padding:5px;
+  }
+  
+.mat-select{
+    font-size:12px;    
+  }
+

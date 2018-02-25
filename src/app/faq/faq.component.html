@@ -1,0 +1,154 @@
+<mat-toolbar style="border-radius:5px; border-color:black;border-style: solid ;position:sticky;top:0px; ">
+    <i class="fa fa-arrow-left" (click)="backClicked()">  </i>
+      <span style="margin-left: 20px; font-family:Arial;"><b>Welcome User</b></span> 
+      <span style="width:100%;text-align:left"></span> 
+      <i class="fa fa-ellipsis-v" [matMenuTriggerFor]="menu">  </i>  
+    </mat-toolbar>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item  routerLink="/logout" type="button" class="btn-block"  (click)="logout();">Logout</button>
+    </mat-menu>
+
+  <div style="padding-left:30px;">
+    <br><br>
+    <h2 style="color:blue">FAQ</h2>
+    
+    <br><br>
+    <div class="faq_heads" >
+        <li><a (click)="faq1_1()"><u>Thread Depth Guidelines</u></a></li>
+       <span class="content" *ngIf="faq1">
+         <br> All TBK = 4/32", WS = 4/32" Prem/Market Connect, 5/32" for High Line & 3/32" for Auction (non-highline), All Tires Must Match.
+        </span>
+        <br><br>
+        <li><a (click)="faq2_2()"><u>WholeSale Prep Standards</u></a></li>
+        <span class="content" *ngIf="faq2">
+         <br> 
+         <table border="1" width="90%" style="font-size:14px;">
+           <tr>
+             <th colspan="2">Actions</th>
+           </tr>
+
+           <tr>
+              <td colspan="2">No Existing Collision Damage</td>
+            </tr>
+            
+            <tr>
+                <td colspan="2">All traditional PDR done if more than 2 panels. <br>Always PDR Roof, Decklid, Hood, LFD</td>
+              </tr>
+            
+              <tr>
+                  <td colspan="2">SAFETY ITEMS - All must be resolved !!</td>
+              </tr>  
+              
+              <tr>
+                  <td colspan="2">Highline Target Allowance = $0 (Front Line Ready!)<br>Market Connect Target Allowance =< $250<br>Traditional Auction Target Allowance = < $400</td>
+              </tr>
+              
+              <tr>
+                  <th colspan="2">Review car for Previous Repair.</th>
+              </tr>
+
+              <tr>
+                  <th >If</th>
+                  <th >Then</th>
+              </tr>
+
+              <tr>
+                  <td rowspan="2">Customer repaired</td>
+                  <td>2 or less panels and no structure = Ship</td>
+              </tr>
+
+              <tr>
+                  
+                  <td>3+ panels= eview with RSCM / Area Sales Mgr</td>
+              </tr>
+
+
+              <tr>
+                  <td rowspan="2">Poor ABG repair</td>
+                  <td>> 2 panels=Send back to original shop if</td>
+              </tr>
+
+              <tr> 
+                  <td>local, or repair and bill back owning city.</td>
+              </tr>
+
+              <tr>  
+                  <td colspan="2">Repair authorization up to $300;<br>> $300 = contact City SC Mgr for authorization to repair.<br> Tires, Glass, Safety Items not part of $300 spend, must be done </td>
+              </tr>
+
+           </table>
+        </span>
+        <br><br>
+        <li><a (click)="faq3_3()"><u>What is the Premium Vehicle ?</u></a></li>
+        <span class="content" *ngIf="faq3">
+          <br>  Our Premium Pre-Owned Vehicles have undergone Precision Toyota’s own rigorous reconditioning process inspired by the Toyota Certified Used Vehicle program. As such, these cars feature most of the benefits of a Toyota Certified model but have a different warranty and lack a Toyota Certified mechanical report.
+        </span>
+        <br><br>
+        <li><a (click)="faq4_4()"><u>TurnBack Allowances</u></a></li>
+        <span class="content" *ngIf="faq4">
+                <br> <table border="1" width="90%" color="red" style="font-size:14px;">
+                  <tr>
+                        <th colspan="2">MFG</th>
+                        <th>Deductions</th>
+                        <th>Maxed Allowances</th>
+                  </tr>
+                  <tr>
+                    <td colspan="2">GM</td>
+                    <td>$450</td>
+                    <td>Total CR</td>
+                  </tr>
+                  <tr>
+                      <td colspan="2">FORD</td>
+                      <td>$500</td>
+                      <td>Cumulative</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Chrysler</td>
+                      <td>$400</td>
+                      <td>Cumulative</td>
+
+                    </tr>
+                    <tr>
+                      <td colspan="2">KIA</td>
+                      <td>$450</td>
+                      <td>Cumulative</td>
+
+                    </tr>
+                    <tr>
+                      <td colspan="2">Subaru</td>
+                      <td>$375</td>
+                      <td>Cumulative</td>
+
+                    </tr>
+                    <tr>
+                      <td colspan="2">Hyundai</td>
+                      <td>$450</td>
+                      <td>Cumulative</td>
+
+                    </tr>
+                    <tr>
+                      <td colspan="2">Toyota (0-12)</td>
+                      <td>$400</td>
+                      
+                    </tr>
+                    <tr>
+                      <td colspan="2">Toyota 12+</td>
+                      <td>$600</td>
+                    </tr> 
+                </table>
+        </span>
+        <br><br>
+        <li><a (click)="faq5_5()"><u>Email Prep Sheet</u></a></li>
+        <span class="content" *ngIf="faq5">Hi</span>
+        <br><br>
+        <li><a (click)="faq6_6()"><u>Smart Repair Cost and Impact</u></a></li>
+        <span class="content" *ngIf="faq6">Hi</span>
+        <br><br>
+        <li><a (click)="faq7_7()"><u>One More FAQ</u></a></li>
+        <span class="content" *ngIf="faq7">Hi</span>
+       
+      </div>
+        <br><br>
+      
+    </div>
